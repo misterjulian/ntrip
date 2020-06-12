@@ -2,9 +2,10 @@ package ntrip
 
 import (
 	"errors"
-	"github.com/benburkert/http"
 	"io"
 	"net/url"
+
+	"github.com/benburkert/http"
 )
 
 // Server wraps http.Request for NTRIP server requests. Effectively a chunked

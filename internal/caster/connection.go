@@ -1,8 +1,9 @@
 package caster
 
 import (
-	"github.com/google/uuid"
 	"net/http"
+
+	"github.com/google/uuid"
 )
 
 // Connection represents a client HTTP(S) request, implements Subscriber interface

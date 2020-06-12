@@ -1,8 +1,9 @@
 package ntrip
 
 import (
-	"github.com/benburkert/http"
 	"net/url"
+
+	"github.com/benburkert/http"
 )
 
 // Client wraps http.Request for NTRIP client requests

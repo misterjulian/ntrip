@@ -23,6 +23,11 @@ type Mountpoint struct {
 	Subscribers map[string]Subscriber
 }
 
+func NewMountpoint(conn *Connection) *Mountpoint {
+	conn.Writer.Header().Set("Connection", "close")
+	return &Mountpoint{Source: conn, Subscribers: make(map[string]Subscriber)}
+}
+
 // ReadSourceData reads data from Source Request Body and writes to Source.Channel
 func (mount *Mountpoint) Read() chan []byte {
 	data := make(chan []byte)

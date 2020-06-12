@@ -2,12 +2,21 @@ package main
 
 import (
 	"flag"
-	"github.com/go-gnss/ntrip/caster"
-	"github.com/go-gnss/ntrip/caster/authorizers"
+	"time"
+
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
-	"time"
+
+	"github.com/go-gnss/ntrip/internal/caster"
 )
+
+// Config exists to demonstrate that this responsibility lies with the
+// application implementing the ntrip.caster module and not the module itself
+type Config struct {
+	HTTP struct {
+		Port string
+	}
+}
 
 func main() {
 	ntripcaster := caster.Caster{
@@ -16,22 +25,21 @@ func main() {
 	} // TODO: Hide behind NewCaster which can include a DefaultAuthenticator
 	log.SetFormatter(&log.JSONFormatter{})
 
-	configFile := flag.String("config", "cmd/ntripcaster/caster.json", "Path to config file")
+	configFile := flag.String("config", "configs/caster.yml", "Path to config file")
 	flag.Parse()
 
-	conf := Config{}
 	viper.SetConfigFile(*configFile)
 	err := viper.ReadInConfig()
 	if err != nil {
 		panic(err)
 	}
 
+	conf := Config{}
 	err = viper.Unmarshal(&conf)
 	if err != nil {
 		panic(err)
 	}
 
-	ntripcaster.Authorizer = authorizers.NewCognitoAuthorizer(conf.Cognito.UserPoolID, conf.Cognito.ClientID)
-
+	log.Info("NTRIP Caster started")
 	panic(ntripcaster.ListenHTTP(conf.HTTP.Port))
 }

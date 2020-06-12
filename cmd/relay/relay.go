@@ -4,9 +4,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/go-gnss/ntrip"
 	"io/ioutil"
 	"time"
+
+	"github.com/go-gnss/ntrip/internal/ntrip"
 )
 
 func main() {
